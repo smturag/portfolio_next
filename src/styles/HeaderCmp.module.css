@@ -1,0 +1,62 @@
+.main {
+  display: flex;
+  flex-direction: column;
+}
+.header {
+  position: relative;
+  margin-top: 5%;
+  opacity: 0;
+  animation: appear 1s forwards;
+  animation-delay: 2s;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+}
+@keyframes appear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.down_text {
+  font-size: 10vw;
+  opacity: 0.1;
+  line-height: 1;
+}
+
+.up_text {
+  font-size: 4vw;
+  position: absolute;
+  text-align: center;
+  top: 30%;
+  /* left: 20%; */
+  white-space: nowrap;
+  align-items: center;
+  line-height: 1;
+}
+
+.paper_container {
+  width: 500px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.paper_container:hover {
+  pointer-events: auto;
+  background-color: lightgray;
+}
+
+.loading_paper_container{
+  width: 500px;
+  padding: 10px;
+  box-sizing: border-box;
+}
+.loading_paper_container:hover{
+  pointer-events: auto;
+  background-color: lightgray;
+}
