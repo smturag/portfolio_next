@@ -58,11 +58,17 @@ const ExperienceItems = [
   }
 
   const skillsData = [
-    skillsFunc('HTML',10),
-    skillsFunc('css',20),
-    skillsFunc('JavaScript',30),
-    skillsFunc('React',40),
-    skillsFunc('Laravel',50),
+    skillsFunc('Web Design',80),
+    skillsFunc('JavaScript',80),
+    skillsFunc('HTML/CSS',90),
+    skillsFunc('React JS',85),
+    skillsFunc('React Native',80),
+    skillsFunc('Laravel',70),
+    skillsFunc('Next JS',80),
+    skillsFunc('Express JS',80),
+
+
+
 
 
 
@@ -76,10 +82,10 @@ const ExperienceItems = [
   }
 
   const WorkInfo=[
-    WorkDescription('icon1','Html', 'Html description'),
-    WorkDescription('icon2','Html2', 'Html description2'),
-    WorkDescription('icon3','Html3', 'Html description3'),
-    WorkDescription('icon3','Html3', 'Html description3')
+    WorkDescription('Web','Web Designing', 'React, Laravel, React Native', 'Next'),
+    WorkDescription('Android','Android', 'React Native'),
+    WorkDescription('Backend','Backend', 'Next , Laravel, Express JS' ),
+    WorkDescription('Scrapping','Scrapping', 'PHP , JavaScript')
 
 
   ]

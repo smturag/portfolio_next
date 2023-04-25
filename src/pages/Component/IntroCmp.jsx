@@ -6,6 +6,9 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import Typewriter from "typewriter-effect";
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope, faFacebookF } from "@fortawesome/free-solid-svg-icons";
+import download from "js-file-download";
 
 export default function IntroCmp() {
   const [darkMode, setDarkMode] = useState(false);
@@ -19,6 +22,19 @@ export default function IntroCmp() {
     document.body.classList.toggle("dark-mode");
   };
 
+  const fileName = "SM_Turag_Resume.pdf";
+  const filePath = "/Image/Resume_SMTurag.pdf";
+
+  const handleDownload = async () => {
+    try {
+      const response = await fetch(filePath);
+      const blob = await response.blob();
+      download(blob, fileName);
+    } catch (error) {
+      console.error("Error downloading file:", error);
+    }
+  };
+
   return (
     <Box className={styles.first_div}>
       <Box>
@@ -29,9 +45,29 @@ export default function IntroCmp() {
         />
       </Box>
       <Box className={styles.button_container}>
-        <IconButton onClick={toggleDarkMode} aria-label="delete">
-          {darkMode ? <LightModeOutlinedIcon /> : <LightModeIcon />}
-        </IconButton>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <button
+            onClick={handleDownload}
+            style={{ padding: 10, borderRadius: 25, fontSize: 20 }}
+          >
+            Download CV
+          </button>
+
+         
+
+          <IconButton onClick={toggleDarkMode} aria-label="delete">
+            {darkMode ? <LightModeOutlinedIcon /> : <LightModeIcon />}
+          </IconButton>
+          {/* <FontAwesomeIcon icon={solid("facebook-f")} /> */}
+          <FontAwesomeIcon icon={faFacebookF} />
+        </Box>
       </Box>
       <Box className={styles.text_container}>
         <Box>

@@ -8,6 +8,7 @@ import HeaderCmp from "./Component/HeaderCmp";
 import AboutDetails from "./Component/AboutDetails";
 import ResumeDetails from "./Component/ResumeDetails";
 import IntroCmp from "./Component/IntroCmp";
+import Working from '../pages/Component/Work_Directory/Working'
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,7 +43,9 @@ export default function Home() {
             <HeaderCmp
               downText={"Working History"}
               upText={"My Work"}
-            ></HeaderCmp>
+            >
+              <Working/>
+            </HeaderCmp>
           </Box>
         </Stack>
       </main>
