@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { Box, paper, LinearProgress, Container, Grid } from "@mui/material";
-import { skillsData } from "../Data/Information";
+import { skillsData } from "../../Data/Information";
 import SkillsLoadingCmp from "./SkillsLoadingCmp";
 
 export default function SkillsContainer(props) {

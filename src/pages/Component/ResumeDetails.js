@@ -1,6 +1,6 @@
 import React, { Component, useEffect, useState } from "react";
 import { Grid } from "@mui/material";
-import { EducationItems, ExperienceItems } from "../Data/Information";
+import { EducationItems, ExperienceItems } from "../../Data/Information";
 import ResumeCmp from "./ResumeCmp";
 import SkillsContainer from "./SkillsContainer";
 

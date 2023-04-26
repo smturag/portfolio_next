@@ -1,7 +1,7 @@
 import React, { Component, useEffect, useState } from "react";
 import { Grid } from "@mui/material";
 import BoxContainer from "./BoxContainer";
-import { WorkInfo } from "../Data/Information";
+import { WorkInfo } from "../../Data/Information";
 
 export default function Service() {
   const [leftSlice, setLeftSlice] = useState([]);

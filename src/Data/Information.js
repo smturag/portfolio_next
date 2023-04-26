@@ -90,4 +90,4 @@ const ExperienceItems = [
 
   ]
 
-export {EducationItems,ExperienceItems,Check,skillsData,WorkInfo}
+export  {EducationItems,ExperienceItems,Check,skillsData,WorkInfo}
