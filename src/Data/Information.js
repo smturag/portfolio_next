@@ -13,21 +13,21 @@ const EducationItems = [
     "2016-2020",
     "Computer Science & Engineering",
     "Daffodil international University",
-    "Information",
+    "Dhaka",
     ""
   ),
   InfoFunc(
     "2012-2014",
     'Science',
     'Rangpur Govt. College',
-    "Information",
+    "Rangpur",
     ""
   ),
   InfoFunc(
     '2010-2012',
     'Science',
     'Gias Uddin High School',
-    "Information",
+    "Lalmonirhat",
     ""
 
   )
