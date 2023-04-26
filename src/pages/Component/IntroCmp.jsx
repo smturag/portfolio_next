@@ -7,7 +7,7 @@ import Typewriter from "typewriter-effect";
 import Image from "next/image";
 import styles from "@/styles/Home.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faEnvelope, faFacebookF } from "@fortawesome/free-solid-svg-icons";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import download from "js-file-download";
 
 export default function IntroCmp() {
@@ -66,7 +66,7 @@ export default function IntroCmp() {
             {darkMode ? <LightModeOutlinedIcon /> : <LightModeIcon />}
           </IconButton>
           {/* <FontAwesomeIcon icon={solid("facebook-f")} /> */}
-          <FontAwesomeIcon icon={faFacebookF} />
+          
         </Box>
       </Box>
       <Box className={styles.text_container}>
