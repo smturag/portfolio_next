@@ -10,11 +10,11 @@ export default function AboutDetails() {
         <Grid xs={12} sm={12} lg={7} item>
           <Box sx={{ padding: "25px" }}>
             <h2 className="details">
-              I'm Simone Olivia, a Web Developer I help you build brand for your
+              I'm SM Turag, a Web Developer I help you build brand for your
               business at an affordable price. Full Stack Web Developer
               specializing in front end & backend development. Experienced with
               all stages of the development cycle for dynamic web projects.
-              Well-versed in numerous programming languages including HTML5, PHP
+              Well-versed in numerous programming languages including HTML5,React, Next JS, React Native, PHP
               OOP, JavaScript, CSS, MySQL. Strong background in project
               management and customer relations.
             </h2>
