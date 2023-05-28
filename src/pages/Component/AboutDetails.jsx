@@ -31,7 +31,7 @@ export default function AboutDetails() {
         <Grid xs={12} sm={12} lg={5} item>
           <Box sx={{ paddingLeft: "50px", paddingRight: "50px" }}>
             <ShowCmp title={"Name"} info={"S M Turag"} />
-            <ShowCmp title={"Email:"} info={"turag.shagor01@gmail.com"} />
+            <ShowCmp title={"Email:"} info={"smturag0@gmail.com"} />
             <ShowCmp title={"From"} info={"Dhaka Bangladesh"} />
           </Box>
         </Grid>
