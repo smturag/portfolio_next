@@ -2,6 +2,9 @@ import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
 import path from 'path';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 const dataFilePath = path.join(process.cwd(), 'data', 'portfolio.json');
 
 async function getPortfolioData() {

@@ -84,13 +84,16 @@ export default function AdminPage() {
     window.location.href = '/login';
   };
 
-  const handleFileUpload = async (e, callback) => {
+  const handleFileUpload = async (e, callback, uploadType = '') => {
     const file = e.target.files?.[0];
     if (!file) return;
 
     setUploading(true);
     const formData = new FormData();
     formData.append('file', file);
+    if (uploadType) {
+      formData.append('type', uploadType);
+    }
 
     try {
       const res = await fetch('/api/upload', {
@@ -100,7 +103,7 @@ export default function AdminPage() {
       const result = await res.json();
       if (res.ok && result.success) {
         callback(result.url);
-        showStatus(`📁 Uploaded successfully: ${file.name}. Click Save All Changes to publish!`);
+        showStatus(`📁 Uploaded & synced live: ${file.name}`);
       } else {
         showStatus(result.error || 'Upload failed', 'error');
       }
@@ -251,7 +254,7 @@ export default function AdminPage() {
                   type="file"
                   accept=".pdf,.doc,.docx"
                   style={{ display: 'none' }}
-                  onChange={(e) => handleFileUpload(e, (url) => setData({ ...data, personal: { ...data.personal, resumeUrl: url } }))}
+                  onChange={(e) => handleFileUpload(e, (url) => setData((prev) => ({ ...prev, personal: { ...prev.personal, resumeUrl: url } })), 'resume')}
                 />
               </label>
               <input
@@ -327,7 +330,7 @@ export default function AdminPage() {
                   type="file"
                   accept="image/*"
                   style={{ display: 'none' }}
-                  onChange={(e) => handleFileUpload(e, (url) => setData({ ...data, personal: { ...data.personal, avatar: url } }))}
+                  onChange={(e) => handleFileUpload(e, (url) => setData((prev) => ({ ...prev, personal: { ...prev.personal, avatar: url } })), 'avatar')}
                 />
               </label>
               <input
