@@ -78,6 +78,28 @@
   "experience": [
     {
       "id": "exp-1",
+      "year": "2026 - PRESENT",
+      "title": "Full Stack Developer",
+      "company": "Interex IT",
+      "companyUrl": "https://interexit.com/",
+      "location": "Remote",
+      "technologies": "Laravel, Node.js, Express, MySQL, PostgreSQL, MongoDB, Redis, Git",
+      "responsibilities": [
+        "Designed, developed, and maintained robust RESTful APIs using Laravel and Node.js/Express, serving both web and mobile applications.",
+        "Architected and optimized database schemas (MySQL/PostgreSQL/MongoDB) for scalability, data integrity, and performance.",
+        "Implemented authentication and authorization systems (JWT, Laravel Sanctum/Passport) to ensure secure access control.",
+        "Optimized backend performance through query optimization, caching (Redis), and efficient code structuring, reducing API response time significantly.",
+        "Wrote and maintained clean, testable code following MVC architecture and best practices (SOLID principles, PSR standards).",
+        "Managed server deployment and version control using Git, ensuring high availability and CI/CD workflows."
+      ],
+      "liveProjects": [
+        { "name": "dev.learnwithnoman.com", "url": "https://dev.learnwithnoman.com/" },
+        { "name": "mentorassist.online", "url": "https://mentorassist.online/" },
+        { "name": "bloodlinkonline.xyz", "url": "https://bloodlinkonline.xyz/" }
+      ]
+    },
+    {
+      "id": "exp-2",
       "year": "2024 - PRESENT",
       "title": "Full Stack Developer",
       "company": "Pitor",
@@ -99,24 +121,22 @@
       ]
     },
     {
-      "id": "exp-2",
-      "year": "2022 - 2024",
-      "title": "Full Stack Web & Mobile App Developer",
-      "company": "Software & Enterprise Clients",
-      "companyUrl": "https://mentorassist.online/",
-      "location": "Dhaka, Bangladesh",
-      "technologies": "Laravel, Node.js, Express, Socket.IO, WebRTC, Flutter",
+      "id": "exp-3",
+      "year": "",
+      "title": "Real-Time Systems & Mobile App Architect",
+      "company": "Client Projects & Independent Solutions",
+      "companyUrl": "#",
+      "location": "Remote",
+      "technologies": "Laravel, Node.js, WebRTC, Socket.IO, Flutter",
       "responsibilities": [
-        "Architected and optimized database schemas (MySQL/PostgreSQL/MongoDB) for scalability, data integrity, and performance.",
-        "Implemented authentication structuring, reducing API response time significantly.",
-        "Wrote and maintained clean, testable code following MVC architecture and best practices (SOLID principles, PSR standards).",
-        "Engineered real-time features including low-latency WebRTC video streaming and Socket.IO multiplayer gaming synchronization."
+        "Architected and engineered low-latency Real-Time Live Streaming applications using WebRTC signaling servers, Node.js event loops, Laravel backends, and Flutter cross-platform frontends.",
+        "Built a synchronized Multiplayer Ludo Gaming Engine featuring real-time room state management, high-frequency websocket event dispatching via Socket.IO, and secure match validation.",
+        "Designed RESTful APIs and distributed socket communication channels ensuring seamless 60fps mobile performance across iOS and Android.",
+        "Wrote clean, modular backend architectures following SOLID design principles and PSR standards for high-concurrency client workloads."
       ],
       "liveProjects": [
-        { "name": "Live Streaming App (Laravel, Node JS, WebRTC, Flutter)", "url": "#" },
-        { "name": "Multiplayer Ludo Game (Laravel, Node JS, Socket.IO)", "url": "#" },
-        { "name": "mentorassist.online", "url": "https://mentorassist.online/" },
-        { "name": "bloodlinkonline.xyz", "url": "https://bloodlinkonline.xyz/" }
+        { "name": "Live Streaming App (Laravel, Node.js, WebRTC, Flutter)", "url": "#" },
+        { "name": "Multiplayer Ludo Game Engine (Laravel, Node.js, Socket.IO)", "url": "#" }
       ]
     }
   ],
