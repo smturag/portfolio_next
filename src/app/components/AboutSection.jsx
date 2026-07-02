@@ -4,7 +4,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 export default function AboutSection({ personal, siteSettings }) {
-  const { name, email, location, bio, avatar } = personal || {};
+  const { name, email, phone, location, bio, avatar } = personal || {};
   const { aboutSubtitle, aboutTitle } = siteSettings || {};
 
   const aboutImg = avatar || '/aa.jpg';
@@ -40,7 +40,7 @@ export default function AboutSection({ personal, siteSettings }) {
               </p>
 
               {/* Quick Info Grid inside Left Card */}
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '16px', paddingTop: '20px', borderTop: '1px solid var(--border-subtle)' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: '16px', paddingTop: '20px', borderTop: '1px solid var(--border-subtle)' }}>
                 <div>
                   <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Full Name</span>
                   <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)' }}>{name || 'S M Turag'}</div>
@@ -50,63 +50,89 @@ export default function AboutSection({ personal, siteSettings }) {
                   <div style={{ fontSize: '1.1rem', fontWeight: 800, color: 'var(--text-primary)' }}>{location || 'Dhaka, Bangladesh'}</div>
                 </div>
                 <div>
-                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Direct Contact</span>
-                  <div style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--accent-cyan)', wordBreak: 'break-all' }}>{email || 'smturag0@gmail.com'}</div>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Direct Email</span>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--accent-cyan)', wordBreak: 'break-all' }}>{email || 'smturag01@gmail.com'}</div>
+                </div>
+                <div>
+                  <span style={{ fontSize: '0.78rem', color: 'var(--text-muted)', textTransform: 'uppercase', fontWeight: 700 }}>Mobile / Phone</span>
+                  <div style={{ fontSize: '1.05rem', fontWeight: 800, color: 'var(--accent-cyan)' }}>{phone || '+8801605042408'}</div>
                 </div>
               </div>
             </div>
           </motion.div>
 
-          {/* RIGHT SIDE: IMAGE SHOWCASE WITH BADGES */}
+          {/* RIGHT SIDE: CORE EXPERTISE & HIGHLIGHTS (NO IMAGE) */}
           <motion.div
             initial={{ opacity: 0, x: 30 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
-            style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}
+            style={{ display: 'flex', flexDirection: 'column', gap: '20px', justifyContent: 'space-between' }}
           >
+            {/* Core Competency Card (No Image) */}
             <div
               className="bento-card"
               style={{
-                position: 'relative',
-                width: '100%',
-                aspectRatio: '16 / 11',
-                borderRadius: '28px',
-                overflow: 'hidden',
-                padding: '0',
+                padding: '36px',
+                background: 'linear-gradient(145deg, var(--bg-surface) 0%, rgba(56, 189, 248, 0.05) 100%)',
+                border: '1px solid var(--border-active)',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                flex: 1,
               }}
             >
-              <img
-                src={aboutImg}
-                alt={name || 'About S M Turag'}
-                onError={(e) => {
-                  e.currentTarget.src = 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=800&q=80';
-                }}
-                style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
-              />
-              <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to top, rgba(3,7,18,0.85) 0%, transparent 60%)' }} />
-              
-              <div style={{ position: 'absolute', bottom: '20px', left: '20px', right: '20px' }}>
-                <span style={{ fontSize: '0.8rem', background: 'var(--accent-cyan)', color: '#000', fontWeight: 800, padding: '4px 12px', borderRadius: '6px' }}>
-                  Core Competency
-                </span>
-                <div style={{ fontSize: '1.3rem', fontWeight: 800, color: '#fff', marginTop: '6px' }}>
-                  Laravel • React • Next.js • React Native
-                </div>
+              <span style={{ fontSize: '0.8rem', background: 'var(--accent-cyan)', color: '#000', fontWeight: 800, padding: '6px 14px', borderRadius: '999px', alignSelf: 'flex-start', marginBottom: '16px' }}>
+                ⭐ Core Engineering Competency
+              </span>
+              <h4 style={{ fontSize: '1.5rem', fontWeight: 800, color: 'var(--text-primary)', marginBottom: '12px', lineHeight: 1.4 }}>
+                Full Stack Mastery across Web & Mobile Platforms
+              </h4>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '1.02rem', lineHeight: 1.7, marginBottom: '22px' }}>
+                Delivering robust backend architectures combined with seamless frontend user interfaces. Specialized in enterprise-grade web development and cross-platform native applications.
+              </p>
+
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '10px' }}>
+                {['Laravel', 'Next.js 14', 'React.js', 'React Native', 'Flutter', 'Node.js', 'Tailwind CSS', 'PostgreSQL', 'REST APIs'].map((tech) => (
+                  <span
+                    key={tech}
+                    style={{
+                      padding: '8px 16px',
+                      borderRadius: '12px',
+                      background: 'var(--bg-card)',
+                      border: '1px solid var(--border-subtle)',
+                      color: 'var(--text-primary)',
+                      fontSize: '0.88rem',
+                      fontWeight: 700,
+                    }}
+                  >
+                    ⚡ {tech}
+                  </span>
+                ))}
               </div>
             </div>
 
-            {/* Highlights Strip */}
+            {/* 4 Highlights Grid */}
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
               <div className="bento-card" style={{ padding: '20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.8rem', marginBottom: '4px' }}>🏆</div>
-                <div style={{ fontWeight: 800, color: 'var(--text-primary)' }}>PSR & SOLID</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>Clean Architecture</div>
+                <div style={{ fontSize: '1.8rem', marginBottom: '6px' }}>🏆</div>
+                <div style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>PSR & SOLID</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Clean Architecture</div>
               </div>
               <div className="bento-card" style={{ padding: '20px', textAlign: 'center' }}>
-                <div style={{ fontSize: '1.8rem', marginBottom: '4px' }}>⚡</div>
-                <div style={{ fontWeight: 800, color: 'var(--text-primary)' }}>Real-Time Systems</div>
-                <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>WebRTC & Socket.IO</div>
+                <div style={{ fontSize: '1.8rem', marginBottom: '6px' }}>⚡</div>
+                <div style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>Real-Time Systems</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>WebRTC & Socket.IO</div>
+              </div>
+              <div className="bento-card" style={{ padding: '20px', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.8rem', marginBottom: '6px' }}>🔒</div>
+                <div style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>Bank-Grade Security</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>JWT, OAuth2 & Encryption</div>
+              </div>
+              <div className="bento-card" style={{ padding: '20px', textAlign: 'center' }}>
+                <div style={{ fontSize: '1.8rem', marginBottom: '6px' }}>🚀</div>
+                <div style={{ fontWeight: 800, color: 'var(--text-primary)', fontSize: '1.05rem' }}>High Scalability</div>
+                <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Cloud & Microservices</div>
               </div>
             </div>
           </motion.div>

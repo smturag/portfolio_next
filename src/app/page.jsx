@@ -99,12 +99,14 @@ export default function Home() {
               Whether you need a full-scale enterprise web platform or a high-converting mobile architecture, I am ready to turn your vision into reality.
             </p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href={`mailto:${personal?.email || 'smturag0@gmail.com'}`} className="btn-gradient" style={{ padding: '16px 36px', fontSize: '1.05rem' }}>
-                ✉️ Send Me a Message
+              <a href={`mailto:${personal?.email || 'smturag01@gmail.com'}`} className="btn-gradient" style={{ padding: '16px 36px', fontSize: '1.05rem' }}>
+                ✉️ {personal?.email || 'smturag01@gmail.com'}
               </a>
-              <a href="#about" className="btn-outline" style={{ padding: '16px 36px', fontSize: '1.05rem' }}>
-                👤 View Profile Details
-              </a>
+              {personal?.phone && (
+                <a href={`tel:${personal.phone}`} className="btn-outline" style={{ padding: '16px 36px', fontSize: '1.05rem', borderColor: 'var(--accent-cyan)', color: 'var(--accent-cyan)' }}>
+                  📞 {personal.phone}
+                </a>
+              )}
             </div>
           </motion.div>
         </div>

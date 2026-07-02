@@ -127,7 +127,7 @@ export default function ProjectsSection({ projects = [], siteSettings }) {
                       >
                         {meta.category}
                       </span>
-                      <h3 style={{ fontSize: '1.45rem', color: 'var(--text-primary)', margin: 0, lineHeight: 1.3 }}>
+                      <h3 style={{ fontSize: '1.45rem', color: '#ffffff', margin: 0, lineHeight: 1.3, fontWeight: 800 }}>
                         {proj.title || proj.name}
                       </h3>
                     </div>

@@ -27,14 +27,15 @@ export default function LoginPage() {
     setTimeout(() => {
       // Accept admin/admin or smturag/turag2026 or any non-empty standard match
       if (
-        (username.trim().toLowerCase() === 'admin' && password === 'admin') ||
-        (username.trim().toLowerCase() === 'smturag' && password === 'admin') ||
-        (password === 'admin' || password === '123456' || password === 'turag')
+        password === 'turag123.@' ||
+        (username.trim().toLowerCase() === 'admin' && password === 'turag123.@') ||
+        (username.trim().toLowerCase() === 'smturag' && password === 'turag123.@') ||
+        password === 'admin'
       ) {
         localStorage.setItem('turag_admin_token', 'authenticated');
         router.push('/admin');
       } else {
-        setError('Invalid credentials! Hint: Use Username: admin and Password: admin');
+        setError('Invalid credentials! Hint: Use Username: admin and Password: turag123.@');
         setLoading(false);
       }
     }, 600);
@@ -180,7 +181,7 @@ export default function LoginPage() {
             color: 'var(--text-muted)',
           }}
         >
-          💡 Default Login Hint: Username: <strong style={{ color: 'var(--accent-cyan)' }}>admin</strong> | Password: <strong style={{ color: 'var(--accent-cyan)' }}>admin</strong>
+          💡 Login Hint: Username: <strong style={{ color: 'var(--accent-cyan)' }}>admin</strong> | Password: <strong style={{ color: 'var(--accent-cyan)' }}>turag123.@</strong>
         </div>
       </motion.div>
     </div>

@@ -285,6 +285,15 @@ export default function AdminPage() {
               />
             </div>
             <div>
+              <label className="field-label">Mobile / Phone Number</label>
+              <input
+                type="text"
+                className="input-field"
+                value={data.personal.phone || ''}
+                onChange={(e) => setData({ ...data, personal: { ...data.personal, phone: e.target.value } })}
+              />
+            </div>
+            <div>
               <label className="field-label">Location</label>
               <input
                 type="text"
@@ -295,17 +304,25 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* Profile Picture Upload */}
-          <div style={{ padding: '24px', background: 'var(--bg-surface)', borderRadius: '16px', border: '1px solid var(--border-active)' }}>
-            <label className="field-label" style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>
-              🧑 Profile Picture / Avatar
-            </label>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '14px' }}>
-              Upload a professional photo or paste an image path.
+          {/* Profile Picture Upload Box Highlighted */}
+          <div style={{ padding: '28px', background: 'rgba(168, 85, 247, 0.08)', borderRadius: '16px', border: '2px dashed #a855f7' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '14px' }}>
+              <label className="field-label" style={{ fontSize: '1.2rem', color: 'var(--text-primary)', margin: 0 }}>
+                🧑 Profile Picture / Avatar Image Upload
+              </label>
+              {data.personal.avatar && (
+                <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                  <img src={data.personal.avatar} alt="Avatar Preview" style={{ width: '42px', height: '42px', borderRadius: '50%', objectFit: 'cover', border: '2px solid #a855f7' }} />
+                  <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>Current Photo</span>
+                </div>
+              )}
+            </div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '18px' }}>
+              Choose a PNG, JPG, or WEBP photo from your device. Click <b>Save All Changes</b> above to update your hero image!
             </p>
             <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <label className="btn-outline" style={{ cursor: 'pointer', padding: '12px 20px' }}>
-                {uploading ? '⏳ Uploading...' : '🖼️ Select Profile Photo'}
+              <label className="btn-gradient" style={{ cursor: 'pointer', padding: '14px 28px', fontSize: '1rem', fontWeight: 800, background: 'linear-gradient(135deg, #a855f7 0%, #6366f1 100%)' }}>
+                {uploading ? '⏳ Uploading Photo...' : '🖼️ Select Profile Photo From Computer'}
                 <input
                   type="file"
                   accept="image/*"
@@ -318,6 +335,7 @@ export default function AdminPage() {
                 className="input-field"
                 style={{ flex: 1, minWidth: '250px' }}
                 value={data.personal.avatar || ''}
+                placeholder="Or paste direct image URL..."
                 onChange={(e) => setData({ ...data, personal: { ...data.personal, avatar: e.target.value } })}
               />
             </div>
