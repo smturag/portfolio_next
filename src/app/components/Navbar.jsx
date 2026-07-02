@@ -157,9 +157,16 @@ export default function Navbar() {
           </button>
 
           {!isAdmin ? (
-            <Link href="/admin" className="btn-outline" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
+            <button
+              onClick={() => {
+                const token = typeof window !== 'undefined' ? localStorage.getItem('turag_admin_token') : null;
+                window.location.href = token === 'authenticated' ? '/admin' : '/login';
+              }}
+              className="btn-outline"
+              style={{ padding: '10px 20px', fontSize: '0.85rem', cursor: 'pointer' }}
+            >
               ⚙️ Admin Panel
-            </Link>
+            </button>
           ) : (
             <Link href="/" className="btn-gradient" style={{ padding: '10px 20px', fontSize: '0.85rem' }}>
               🌐 View Live Site
@@ -170,3 +177,4 @@ export default function Navbar() {
     </header>
   );
 }
+

@@ -4,6 +4,7 @@ import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 export default function AdminPage() {
+  const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
@@ -13,14 +14,15 @@ export default function AdminPage() {
   const router = useRouter();
 
   useEffect(() => {
-    // Verify admin authentication
     const token = localStorage.getItem('turag_admin_token');
-    if (token !== 'authenticated') {
-      router.push('/login');
-      return;
+    if (token === 'authenticated') {
+      setIsAuthenticated(true);
+      fetchData();
+    } else {
+      setIsAuthenticated(false);
+      setLoading(false);
     }
-    fetchData();
-  }, [router]);
+  }, []);
 
   const fetchData = async () => {
     setLoading(true);
@@ -53,7 +55,7 @@ export default function AdminPage() {
 
   const showStatus = (text, type = 'success') => {
     setStatusMsg({ text, type });
-    setTimeout(() => setStatusMsg({ text: '', type: '' }), 4000);
+    setTimeout(() => setStatusMsg({ text: '', type: '' }), 4500);
   };
 
   const handleSave = async () => {
@@ -79,7 +81,7 @@ export default function AdminPage() {
 
   const handleLogout = () => {
     localStorage.removeItem('turag_admin_token');
-    router.push('/login');
+    window.location.href = '/login';
   };
 
   const handleFileUpload = async (e, callback) => {
@@ -98,7 +100,7 @@ export default function AdminPage() {
       const result = await res.json();
       if (res.ok && result.success) {
         callback(result.url);
-        showStatus(`📁 Uploaded successfully: ${file.name}`);
+        showStatus(`📁 Uploaded successfully: ${file.name}. Click Save All Changes to publish!`);
       } else {
         showStatus(result.error || 'Upload failed', 'error');
       }
@@ -109,16 +111,37 @@ export default function AdminPage() {
     }
   };
 
+  if (isAuthenticated === false) {
+    return (
+      <div className="container" style={{ padding: '80px 24px', minHeight: '80vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+        <div className="bento-card" style={{ maxWidth: '460px', width: '100%', padding: '48px 36px', textAlign: 'center', border: '1px solid var(--border-active)' }}>
+          <div style={{ fontSize: '3.5rem', marginBottom: '16px' }}>🔒</div>
+          <h2 style={{ fontSize: '1.8rem', color: 'var(--text-primary)', marginBottom: '12px' }}>Security Authentication Required</h2>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '32px', lineHeight: 1.6 }}>
+            You must be logged in to access the Admin Control Center, update CV documents, or modify portfolio data.
+          </p>
+          <button
+            onClick={() => { window.location.href = '/login'; }}
+            className="btn-gradient"
+            style={{ width: '100%', padding: '16px', fontSize: '1.05rem', cursor: 'pointer', fontWeight: 700 }}
+          >
+            🔑 Go to Login Page
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   if (loading || !data) {
     return (
       <div className="container" style={{ padding: '120px 0', textAlign: 'center' }}>
-        <h2 style={{ fontSize: '1.8rem', color: 'var(--text-primary)' }}>⏳ Verifying Security Access & Loading Dashboard...</h2>
+        <h2 style={{ fontSize: '1.8rem', color: 'var(--text-primary)' }}>⏳ Loading Admin Dashboard Data...</h2>
       </div>
     );
   }
 
   const tabs = [
-    { id: 'personal', label: '👤 Personal & CV' },
+    { id: 'personal', label: '👤 Personal & CV Upload' },
     { id: 'settings', label: '⚙️ Site Titles & Socials' },
     { id: 'skills', label: '⚡ Skills' },
     { id: 'experience', label: '💼 Work Experience' },
@@ -138,15 +161,14 @@ export default function AdminPage() {
             Modify any information below. Click <b>Save All Changes</b> to update your live portfolio.
           </p>
         </div>
-        
-        <div style={{ display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap' }}>
+        <div style={{ display: 'flex', gap: '12px' }}>
           <button
             onClick={handleSave}
-            disabled={saving || uploading}
+            disabled={saving}
             className="btn-gradient"
-            style={{ padding: '14px 32px', fontSize: '1rem', opacity: saving ? 0.7 : 1 }}
+            style={{ padding: '14px 28px', fontSize: '1rem', cursor: saving ? 'not-allowed' : 'pointer' }}
           >
-            {saving ? '💾 Saving Changes...' : '💾 Save All Changes'}
+            {saving ? '💾 Saving Live...' : '💾 Save All Changes'}
           </button>
           <button
             onClick={handleLogout}
@@ -200,14 +222,50 @@ export default function AdminPage() {
         ))}
       </div>
 
-      {/* TAB 1: PERSONAL & CV */}
+      {/* TAB 1: PERSONAL & CV UPLOAD */}
       {activeTab === 'personal' && (
         <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <h2 style={{ fontSize: '1.6rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px', color: 'var(--text-primary)' }}>
-            👤 Personal Information & CV Upload
+            👤 Personal Information & New CV Upload
           </h2>
 
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px' }}>
+          {/* CV File Upload Box Highlighted */}
+          <div style={{ padding: '28px', background: 'rgba(56, 189, 248, 0.08)', borderRadius: '16px', border: '2px dashed var(--accent-cyan)' }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '14px' }}>
+              <label className="field-label" style={{ fontSize: '1.2rem', color: 'var(--text-primary)', margin: 0 }}>
+                📄 Upload New CV / Resume Document (PDF or DOCX)
+              </label>
+              {data.personal.resumeUrl && (
+                <a href={data.personal.resumeUrl} target="_blank" rel="noreferrer" className="btn-outline" style={{ fontSize: '0.85rem', padding: '6px 14px' }}>
+                  📥 View Current CV ↗
+                </a>
+              )}
+            </div>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', marginBottom: '18px' }}>
+              Choose a file from your computer. Once uploaded, click <b>Save All Changes</b> at the top right to make it live for visitors.
+            </p>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
+              <label className="btn-gradient" style={{ cursor: 'pointer', padding: '14px 28px', fontSize: '1rem', fontWeight: 800 }}>
+                {uploading ? '⏳ Uploading File...' : '📁 Select New CV File From Computer'}
+                <input
+                  type="file"
+                  accept=".pdf,.doc,.docx"
+                  style={{ display: 'none' }}
+                  onChange={(e) => handleFileUpload(e, (url) => setData({ ...data, personal: { ...data.personal, resumeUrl: url } }))}
+                />
+              </label>
+              <input
+                type="text"
+                className="input-field"
+                style={{ flex: 1, minWidth: '250px' }}
+                value={data.personal.resumeUrl || ''}
+                placeholder="Or paste direct document URL..."
+                onChange={(e) => setData({ ...data, personal: { ...data.personal, resumeUrl: e.target.value } })}
+              />
+            </div>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '24px', marginTop: '12px' }}>
             <div>
               <label className="field-label">Full Name</label>
               <input
@@ -237,35 +295,6 @@ export default function AdminPage() {
             </div>
           </div>
 
-          {/* CV File Upload */}
-          <div style={{ padding: '24px', background: 'var(--bg-surface)', borderRadius: '16px', border: '1px solid var(--border-active)' }}>
-            <label className="field-label" style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>
-              📄 Upload CV / Resume Document (PDF or Docx)
-            </label>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', marginBottom: '14px' }}>
-              Current CV URL: <a href={data.personal.resumeUrl} target="_blank" rel="noreferrer" style={{ textDecoration: 'underline', color: 'var(--accent-cyan)' }}>{data.personal.resumeUrl}</a>
-            </p>
-            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', flexWrap: 'wrap' }}>
-              <label className="btn-outline" style={{ cursor: 'pointer', padding: '12px 20px' }}>
-                {uploading ? '⏳ Uploading...' : '📁 Select New CV File'}
-                <input
-                  type="file"
-                  accept=".pdf,.doc,.docx"
-                  style={{ display: 'none' }}
-                  onChange={(e) => handleFileUpload(e, (url) => setData({ ...data, personal: { ...data.personal, resumeUrl: url } }))}
-                />
-              </label>
-              <input
-                type="text"
-                className="input-field"
-                style={{ flex: 1, minWidth: '250px' }}
-                value={data.personal.resumeUrl || ''}
-                placeholder="Or paste direct PDF URL..."
-                onChange={(e) => setData({ ...data, personal: { ...data.personal, resumeUrl: e.target.value } })}
-              />
-            </div>
-          </div>
-
           {/* Profile Picture Upload */}
           <div style={{ padding: '24px', background: 'var(--bg-surface)', borderRadius: '16px', border: '1px solid var(--border-active)' }}>
             <label className="field-label" style={{ fontSize: '1.1rem', color: 'var(--text-primary)' }}>
@@ -289,7 +318,6 @@ export default function AdminPage() {
                 className="input-field"
                 style={{ flex: 1, minWidth: '250px' }}
                 value={data.personal.avatar || ''}
-                placeholder="Image path (/aa.jpg)"
                 onChange={(e) => setData({ ...data, personal: { ...data.personal, avatar: e.target.value } })}
               />
             </div>
@@ -300,27 +328,26 @@ export default function AdminPage() {
             <input
               type="text"
               className="input-field"
-              value={(data.personal.titles || []).join(', ')}
-              placeholder="Full Stack Web Developer, Mobile App Developer..."
-              onChange={(e) => setData({ ...data, personal: { ...data.personal, titles: e.target.value.split(',').map(s => s.trim()).filter(Boolean) } })}
+              value={Array.isArray(data.personal.titles) ? data.personal.titles.join(', ') : data.personal.titles || ''}
+              onChange={(e) => setData({ ...data, personal: { ...data.personal, titles: e.target.value.split(',').map((s) => s.trim()) } })}
             />
           </div>
 
           <div>
-            <label className="field-label">Hero Introduction Subtitle</label>
+            <label className="field-label">Hero Subtitle</label>
             <textarea
-              rows={3}
               className="input-field"
+              rows="2"
               value={data.personal.heroSubtitle || ''}
               onChange={(e) => setData({ ...data, personal: { ...data.personal, heroSubtitle: e.target.value } })}
             />
           </div>
 
           <div>
-            <label className="field-label">Biography (About Me Page Content)</label>
+            <label className="field-label">Full Biography / About Me Text</label>
             <textarea
-              rows={5}
               className="input-field"
+              rows="5"
               value={data.personal.bio || ''}
               onChange={(e) => setData({ ...data, personal: { ...data.personal, bio: e.target.value } })}
             />
@@ -328,97 +355,114 @@ export default function AdminPage() {
         </div>
       )}
 
-      {/* TAB 2: SETTINGS & SOCIALS */}
+      {/* TAB 2: SITE TITLES & SOCIALS */}
       {activeTab === 'settings' && (
         <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
           <h2 style={{ fontSize: '1.6rem', borderBottom: '1px solid var(--border-subtle)', paddingBottom: '12px', color: 'var(--text-primary)' }}>
-            ⚙️ Website Titles & Section Headings
+            ⚙️ Section Headings & Social Links
           </h2>
-
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
             <div>
-              <label className="field-label">Navbar Brand Name</label>
+              <label className="field-label">Brand / Navbar Logo Name</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.brandName || ''}
+                value={data.siteSettings?.brandName || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, brandName: e.target.value } })}
               />
             </div>
             <div>
-              <label className="field-label">Hero Top Greeting Tag</label>
+              <label className="field-label">Hero Top Greeting</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.heroGreeting || ''}
+                value={data.siteSettings?.heroGreeting || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, heroGreeting: e.target.value } })}
               />
             </div>
             <div>
-              <label className="field-label">About Subtitle</label>
+              <label className="field-label">About Section Subtitle</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.aboutSubtitle || ''}
+                value={data.siteSettings?.aboutSubtitle || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, aboutSubtitle: e.target.value } })}
               />
             </div>
             <div>
-              <label className="field-label">About Title</label>
+              <label className="field-label">About Section Main Title</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.aboutTitle || ''}
+                value={data.siteSettings?.aboutTitle || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, aboutTitle: e.target.value } })}
               />
             </div>
             <div>
-              <label className="field-label">Services Subtitle</label>
+              <label className="field-label">Services Section Subtitle</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.servicesSubtitle || ''}
+                value={data.siteSettings?.servicesSubtitle || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, servicesSubtitle: e.target.value } })}
               />
             </div>
             <div>
-              <label className="field-label">Services Title</label>
+              <label className="field-label">Services Section Main Title</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.servicesTitle || ''}
+                value={data.siteSettings?.servicesTitle || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, servicesTitle: e.target.value } })}
               />
             </div>
             <div>
-              <label className="field-label">Resume Subtitle</label>
+              <label className="field-label">Experience Section Subtitle</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.resumeSubtitle || ''}
+                value={data.siteSettings?.resumeSubtitle || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, resumeSubtitle: e.target.value } })}
               />
             </div>
             <div>
-              <label className="field-label">Resume Title</label>
+              <label className="field-label">Experience Section Main Title</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings.resumeTitle || ''}
+                value={data.siteSettings?.resumeTitle || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, resumeTitle: e.target.value } })}
+              />
+            </div>
+            <div>
+              <label className="field-label">Projects Section Subtitle</label>
+              <input
+                type="text"
+                className="input-field"
+                value={data.siteSettings?.projectsSubtitle || ''}
+                onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, projectsSubtitle: e.target.value } })}
+              />
+            </div>
+            <div>
+              <label className="field-label">Projects Section Main Title</label>
+              <input
+                type="text"
+                className="input-field"
+                value={data.siteSettings?.projectsTitle || ''}
+                onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, projectsTitle: e.target.value } })}
               />
             </div>
           </div>
 
-          <h3 style={{ fontSize: '1.3rem', marginTop: '16px', color: 'var(--text-primary)' }}>🔗 Social Links & Footer Text</h3>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
+          <h3 style={{ fontSize: '1.3rem', marginTop: '16px', color: 'var(--text-primary)' }}>🌐 Social Profiles</h3>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '20px' }}>
             <div>
               <label className="field-label">GitHub URL</label>
               <input
                 type="text"
                 className="input-field"
                 value={data.siteSettings?.socials?.github || ''}
-                onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, socials: { ...data.siteSettings.socials, github: e.target.value } } })}
+                onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, socials: { ...data.siteSettings?.socials, github: e.target.value } } })}
               />
             </div>
             <div>
@@ -427,24 +471,15 @@ export default function AdminPage() {
                 type="text"
                 className="input-field"
                 value={data.siteSettings?.socials?.linkedin || ''}
-                onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, socials: { ...data.siteSettings.socials, linkedin: e.target.value } } })}
+                onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, socials: { ...data.siteSettings?.socials, linkedin: e.target.value } } })}
               />
             </div>
             <div>
-              <label className="field-label">Facebook URL</label>
+              <label className="field-label">Footer Copyright Text</label>
               <input
                 type="text"
                 className="input-field"
-                value={data.siteSettings?.socials?.facebook || ''}
-                onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, socials: { ...data.siteSettings.socials, facebook: e.target.value } } })}
-              />
-            </div>
-            <div style={{ gridColumn: '1 / -1' }}>
-              <label className="field-label">Footer Copyright Notice</label>
-              <input
-                type="text"
-                className="input-field"
-                value={data.siteSettings.footerText || ''}
+                value={data.siteSettings?.footerText || ''}
                 onChange={(e) => setData({ ...data, siteSettings: { ...data.siteSettings, footerText: e.target.value } })}
               />
             </div>
@@ -454,51 +489,60 @@ export default function AdminPage() {
 
       {/* TAB 3: SKILLS */}
       {activeTab === 'skills' && (
-        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: 0 }}>⚡ Technical Competency Matrix</h2>
+        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)' }}>⚡ Technical Skills</h2>
             <button
-              onClick={() => setData({ ...data, skills: [...data.skills, { id: `sk-${Date.now()}`, name: 'New Skill', level: 'Expert' }] })}
-              className="btn-outline"
+              onClick={() => setData({ ...data, skills: [...(data.skills || []), { name: 'New Skill', level: 'Expert', category: 'Backend' }] })}
+              className="btn-gradient"
+              style={{ padding: '10px 20px' }}
             >
-              + Add Skill
+              + Add New Skill
             </button>
           </div>
 
-          <div style={{ display: 'grid', gap: '16px' }}>
-            {data.skills.map((sk, idx) => (
-              <div key={sk.id || idx} style={{ display: 'flex', gap: '14px', alignItems: 'center', background: 'var(--bg-surface)', padding: '16px', borderRadius: '14px', border: '1px solid var(--border-subtle)' }}>
-                <input
-                  type="text"
-                  className="input-field"
-                  style={{ flex: 2 }}
-                  value={sk.name || ''}
-                  placeholder="Skill Name (e.g. Laravel & PHP OOP)"
-                  onChange={(e) => {
-                    const newSkills = [...data.skills];
-                    newSkills[idx].name = e.target.value;
-                    setData({ ...data, skills: newSkills });
-                  }}
-                />
-                <input
-                  type="text"
-                  className="input-field"
-                  style={{ flex: 1, minWidth: '130px' }}
-                  value={sk.level || ''}
-                  placeholder="Proficiency (Expert/Advanced)"
-                  onChange={(e) => {
-                    const newSkills = [...data.skills];
-                    newSkills[idx].level = e.target.value;
-                    setData({ ...data, skills: newSkills });
-                  }}
-                />
-                <button
-                  onClick={() => setData({ ...data, skills: data.skills.filter((_, i) => i !== idx) })}
-                  style={{ color: '#ef4444', fontWeight: 700, padding: '8px 14px', fontSize: '1.1rem' }}
-                  title="Delete"
-                >
-                  ✕
-                </button>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '16px' }}>
+            {(data.skills || []).map((skill, idx) => (
+              <div key={idx} style={{ padding: '16px', background: 'var(--bg-surface)', borderRadius: '12px', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 800, color: 'var(--accent-cyan)' }}>Skill #{idx + 1}</span>
+                  <button
+                    onClick={() => {
+                      const updated = [...data.skills];
+                      updated.splice(idx, 1);
+                      setData({ ...data, skills: updated });
+                    }}
+                    style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontWeight: 800 }}
+                  >
+                    🗑️ Delete
+                  </button>
+                </div>
+                <div>
+                  <label className="field-label">Skill Name</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    value={skill.name || ''}
+                    onChange={(e) => {
+                      const updated = [...data.skills];
+                      updated[idx].name = e.target.value;
+                      setData({ ...data, skills: updated });
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="field-label">Level</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    value={skill.level || ''}
+                    onChange={(e) => {
+                      const updated = [...data.skills];
+                      updated[idx].level = e.target.value;
+                      setData({ ...data, skills: updated });
+                    }}
+                  />
+                </div>
               </div>
             ))}
           </div>
@@ -507,258 +551,354 @@ export default function AdminPage() {
 
       {/* TAB 4: WORK EXPERIENCE */}
       {activeTab === 'experience' && (
-        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: 0 }}>💼 Work Experience & Shipped Platforms</h2>
+        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)' }}>💼 Work Experience</h2>
             <button
-              onClick={() => setData({ ...data, experience: [...data.experience, { id: `exp-${Date.now()}`, year: '2024 - PRESENT', title: 'New Role', company: 'Company Name', companyUrl: 'https://pitor.net/', location: 'Remote', responsibilities: ['Key responsibility or achievement here...'], liveProjects: [] }] })}
-              className="btn-outline"
+              onClick={() => setData({ ...data, experience: [{ title: 'New Role', company: 'Company Name', companyUrl: 'https://pitor.net/', year: '2024 - Present', responsibilities: ['Key responsibility 1'] }, ...(data.experience || [])] })}
+              className="btn-gradient"
+              style={{ padding: '10px 20px' }}
             >
-              + Add Work Experience
+              + Add Experience
             </button>
           </div>
 
-          {data.experience.map((exp, idx) => (
-            <div key={exp.id || idx} style={{ background: 'var(--bg-surface)', padding: '24px', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '16px', border: '1px solid var(--border-active)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontWeight: 800, color: 'var(--accent-cyan)' }}>Experience #{idx + 1}</span>
-                <button onClick={() => setData({ ...data, experience: data.experience.filter((_, i) => i !== idx) })} style={{ color: '#ef4444', fontWeight: 700 }}>Delete Role ✕</button>
-              </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {(data.experience || []).map((exp, idx) => (
+              <div key={idx} style={{ padding: '24px', background: 'var(--bg-surface)', borderRadius: '16px', border: '1px solid var(--border-active)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h3 style={{ margin: 0, color: 'var(--accent-cyan)' }}>Role #{idx + 1}: {exp.title}</h3>
+                  <button
+                    onClick={() => {
+                      const updated = [...data.experience];
+                      updated.splice(idx, 1);
+                      setData({ ...data, experience: updated });
+                    }}
+                    style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontWeight: 800 }}
+                  >
+                    🗑️ Remove Role
+                  </button>
+                </div>
 
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px' }}>
-                <div>
-                  <label className="field-label">Job Title</label>
-                  <input type="text" className="input-field" value={exp.title || ''} placeholder="Full Stack Developer" onChange={(e) => { const list = [...data.experience]; list[idx].title = e.target.value; setData({ ...data, experience: list }); }} />
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '16px' }}>
+                  <div>
+                    <label className="field-label">Job Title</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={exp.title || ''}
+                      onChange={(e) => {
+                        const updated = [...data.experience];
+                        updated[idx].title = e.target.value;
+                        setData({ ...data, experience: updated });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="field-label">Company Name</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={exp.company || ''}
+                      onChange={(e) => {
+                        const updated = [...data.experience];
+                        updated[idx].company = e.target.value;
+                        setData({ ...data, experience: updated });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="field-label">Company URL</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={exp.companyUrl || ''}
+                      onChange={(e) => {
+                        const updated = [...data.experience];
+                        updated[idx].companyUrl = e.target.value;
+                        setData({ ...data, experience: updated });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="field-label">Duration / Years</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={exp.year || ''}
+                      onChange={(e) => {
+                        const updated = [...data.experience];
+                        updated[idx].year = e.target.value;
+                        setData({ ...data, experience: updated });
+                      }}
+                    />
+                  </div>
                 </div>
-                <div>
-                  <label className="field-label">Company Name</label>
-                  <input type="text" className="input-field" value={exp.company || ''} placeholder="Pitor" onChange={(e) => { const list = [...data.experience]; list[idx].company = e.target.value; setData({ ...data, experience: list }); }} />
-                </div>
-                <div>
-                  <label className="field-label">Company URL</label>
-                  <input type="text" className="input-field" value={exp.companyUrl || ''} placeholder="https://pitor.net/" onChange={(e) => { const list = [...data.experience]; list[idx].companyUrl = e.target.value; setData({ ...data, experience: list }); }} />
-                </div>
-                <div>
-                  <label className="field-label">Duration</label>
-                  <input type="text" className="input-field" value={exp.year || ''} placeholder="2024 - PRESENT" onChange={(e) => { const list = [...data.experience]; list[idx].year = e.target.value; setData({ ...data, experience: list }); }} />
-                </div>
-              </div>
 
-              <div>
-                <label className="field-label">Responsibilities & Key Accomplishments (One bullet per line)</label>
-                <textarea
-                  rows={4}
-                  className="input-field"
-                  value={(exp.responsibilities || []).join('\n')}
-                  placeholder="Developed scalable web apps using Laravel and React.js..."
-                  onChange={(e) => {
-                    const list = [...data.experience];
-                    list[idx].responsibilities = e.target.value.split('\n').filter(s => s.trim().length > 0);
-                    setData({ ...data, experience: list });
-                  }}
-                />
+                <div>
+                  <label className="field-label">Responsibilities (One bullet per line)</label>
+                  <textarea
+                    className="input-field"
+                    rows="4"
+                    value={(exp.responsibilities || []).join('\n')}
+                    onChange={(e) => {
+                      const updated = [...data.experience];
+                      updated[idx].responsibilities = e.target.value.split('\n').filter((l) => l.trim().length > 0);
+                      setData({ ...data, experience: updated });
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 
       {/* TAB 5: EDUCATION */}
       {activeTab === 'education' && (
-        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: 0 }}>🎓 Educational History</h2>
+        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)' }}>🎓 Academic Education</h2>
             <button
-              onClick={() => setData({ ...data, education: [...data.education, { id: `edu-${Date.now()}`, year: '2016 - 2020', background: 'B.Sc in Computer Science & Engineering', institute: 'Daffodil International University', location: 'Dhaka, Bangladesh' }] })}
-              className="btn-outline"
+              onClick={() => setData({ ...data, education: [{ degree: 'New Degree', institute: 'University Name', year: '2020 - 2024' }, ...(data.education || [])] })}
+              className="btn-gradient"
+              style={{ padding: '10px 20px' }}
             >
-              + Add Education
+              + Add Degree
             </button>
           </div>
 
-          {data.education.map((edu, idx) => (
-            <div key={edu.id || idx} style={{ background: 'var(--bg-surface)', padding: '24px', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '14px', border: '1px solid var(--border-active)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontWeight: 800, color: 'var(--accent-violet)' }}>Education #{idx + 1}</span>
-                <button onClick={() => setData({ ...data, education: data.education.filter((_, i) => i !== idx) })} style={{ color: '#ef4444', fontWeight: 700 }}>Delete ✕</button>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '16px' }}>
+            {(data.education || []).map((edu, idx) => (
+              <div key={idx} style={{ padding: '20px', background: 'var(--bg-surface)', borderRadius: '14px', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 800, color: 'var(--accent-cyan)' }}>Degree #{idx + 1}</span>
+                  <button
+                    onClick={() => {
+                      const updated = [...data.education];
+                      updated.splice(idx, 1);
+                      setData({ ...data, education: updated });
+                    }}
+                    style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontWeight: 800 }}
+                  >
+                    🗑️ Delete
+                  </button>
+                </div>
+                <div>
+                  <label className="field-label">Degree Title</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    value={edu.degree || ''}
+                    onChange={(e) => {
+                      const updated = [...data.education];
+                      updated[idx].degree = e.target.value;
+                      setData({ ...data, education: updated });
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="field-label">Institute / University</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    value={edu.institute || ''}
+                    onChange={(e) => {
+                      const updated = [...data.education];
+                      updated[idx].institute = e.target.value;
+                      setData({ ...data, education: updated });
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="field-label">Academic Year</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    value={edu.year || ''}
+                    onChange={(e) => {
+                      const updated = [...data.education];
+                      updated[idx].year = e.target.value;
+                      setData({ ...data, education: updated });
+                    }}
+                  />
+                </div>
               </div>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '14px' }}>
-                <div>
-                  <label className="field-label">Degree / Certificate</label>
-                  <input type="text" className="input-field" value={edu.background || edu.degree || ''} placeholder="B.Sc in Computer Science & Engineering" onChange={(e) => { const list = [...data.education]; list[idx].background = e.target.value; setData({ ...data, education: list }); }} />
-                </div>
-                <div>
-                  <label className="field-label">Institute Name</label>
-                  <input type="text" className="input-field" value={edu.institute || edu.institution || ''} placeholder="Daffodil International University" onChange={(e) => { const list = [...data.education]; list[idx].institute = e.target.value; setData({ ...data, education: list }); }} />
-                </div>
-                <div>
-                  <label className="field-label">Duration / Years</label>
-                  <input type="text" className="input-field" value={edu.year || ''} placeholder="2016 - 2020" onChange={(e) => { const list = [...data.education]; list[idx].year = e.target.value; setData({ ...data, education: list }); }} />
-                </div>
-                <div>
-                  <label className="field-label">Location</label>
-                  <input type="text" className="input-field" value={edu.location || ''} placeholder="Dhaka, Bangladesh" onChange={(e) => { const list = [...data.education]; list[idx].location = e.target.value; setData({ ...data, education: list }); }} />
-                </div>
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 
       {/* TAB 6: SERVICES */}
       {activeTab === 'services' && (
-        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: 0 }}>🛠️ Offered Services</h2>
+        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)' }}>🛠️ Engineering Services Offered</h2>
             <button
-              onClick={() => setData({ ...data, services: [...data.services, { id: `srv-${Date.now()}`, icon: 'Web', title: 'New Service Engineering', description: 'Service description...' }] })}
-              className="btn-outline"
+              onClick={() => setData({ ...data, services: [...(data.services || []), { title: 'New Service', description: 'Service details', icon: 'Web' }] })}
+              className="btn-gradient"
+              style={{ padding: '10px 20px' }}
             >
               + Add Service
             </button>
           </div>
 
-          {data.services.map((srv, idx) => (
-            <div key={srv.id || idx} style={{ background: 'var(--bg-surface)', padding: '24px', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '14px', border: '1px solid var(--border-active)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontWeight: 800, color: 'var(--accent-cyan)' }}>Service #{idx + 1}</span>
-                <button onClick={() => setData({ ...data, services: data.services.filter((_, i) => i !== idx) })} style={{ color: '#ef4444', fontWeight: 700 }}>Delete ✕</button>
-              </div>
-              <div style={{ display: 'grid', gridTemplateColumns: '160px 1fr', gap: '14px' }}>
-                <div>
-                  <label className="field-label">Category Icon</label>
-                  <select
-                    className="input-field"
-                    value={srv.icon}
-                    onChange={(e) => { const list = [...data.services]; list[idx].icon = e.target.value; setData({ ...data, services: list }); }}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
+            {(data.services || []).map((srv, idx) => (
+              <div key={idx} style={{ padding: '20px', background: 'var(--bg-surface)', borderRadius: '14px', border: '1px solid var(--border-subtle)', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ fontWeight: 800, color: 'var(--accent-cyan)' }}>Service #{idx + 1}</span>
+                  <button
+                    onClick={() => {
+                      const updated = [...data.services];
+                      updated.splice(idx, 1);
+                      setData({ ...data, services: updated });
+                    }}
+                    style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontWeight: 800 }}
                   >
-                    <option value="Web">💻 Web Engineering</option>
-                    <option value="Android">📱 Mobile Apps</option>
-                    <option value="Backend">⚡ Backend & APIs</option>
-                    <option value="Scrapping">⚙️ DevOps & Systems</option>
-                  </select>
+                    🗑️ Delete
+                  </button>
                 </div>
                 <div>
                   <label className="field-label">Service Title</label>
-                  <input type="text" className="input-field" value={srv.title || ''} placeholder="Full Stack Web Engineering" onChange={(e) => { const list = [...data.services]; list[idx].title = e.target.value; setData({ ...data, services: list }); }} />
+                  <input
+                    type="text"
+                    className="input-field"
+                    value={srv.title || ''}
+                    onChange={(e) => {
+                      const updated = [...data.services];
+                      updated[idx].title = e.target.value;
+                      setData({ ...data, services: updated });
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="field-label">Icon Type (Web, Android, Backend, Scrapping)</label>
+                  <input
+                    type="text"
+                    className="input-field"
+                    value={srv.icon || ''}
+                    onChange={(e) => {
+                      const updated = [...data.services];
+                      updated[idx].icon = e.target.value;
+                      setData({ ...data, services: updated });
+                    }}
+                  />
+                </div>
+                <div>
+                  <label className="field-label">Description</label>
+                  <textarea
+                    className="input-field"
+                    rows="3"
+                    value={srv.description || ''}
+                    onChange={(e) => {
+                      const updated = [...data.services];
+                      updated[idx].description = e.target.value;
+                      setData({ ...data, services: updated });
+                    }}
+                  />
                 </div>
               </div>
-              <div>
-                <label className="field-label">Service Description</label>
-                <textarea rows={2} className="input-field" value={srv.description || ''} placeholder="Service Description..." onChange={(e) => { const list = [...data.services]; list[idx].description = e.target.value; setData({ ...data, services: list }); }} />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
 
       {/* TAB 7: PROJECTS */}
       {activeTab === 'projects' && (
-        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px' }}>
-            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)', margin: 0 }}>🚀 Featured Projects & Systems</h2>
+        <div className="bento-card" style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <h2 style={{ fontSize: '1.6rem', color: 'var(--text-primary)' }}>🚀 Featured Projects & Live Platforms</h2>
             <button
-              onClick={() => setData({ ...data, projects: [...data.projects, { id: `prj-${Date.now()}`, title: 'New System', description: 'Description', tags: ['Laravel', 'React'], image: '/Image/gtshop.png', link: 'https://github.com' }] })}
-              className="btn-outline"
+              onClick={() => setData({ ...data, projects: [{ title: 'New Project', description: 'Project overview', link: 'https://trustpaybd.net/', tags: ['React', 'Node.js'] }, ...(data.projects || [])] })}
+              className="btn-gradient"
+              style={{ padding: '10px 20px' }}
             >
-              + Add Project Showcase
+              + Add Project
             </button>
           </div>
 
-          {data.projects.map((prj, idx) => (
-            <div key={prj.id || idx} style={{ background: 'var(--bg-surface)', padding: '24px', borderRadius: '16px', display: 'flex', flexDirection: 'column', gap: '14px', border: '1px solid var(--border-active)' }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-                <span style={{ fontWeight: 800, color: 'var(--accent-cyan)' }}>Project #{idx + 1}</span>
-                <button onClick={() => setData({ ...data, projects: data.projects.filter((_, i) => i !== idx) })} style={{ color: '#ef4444', fontWeight: 700 }}>Delete ✕</button>
-              </div>
-
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))', gap: '14px' }}>
-                <div>
-                  <label className="field-label">Project Title</label>
-                  <input type="text" className="input-field" value={prj.title || prj.name || ''} placeholder="TrustPay BD - FinTech System" onChange={(e) => { const list = [...data.projects]; list[idx].title = e.target.value; setData({ ...data, projects: list }); }} />
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
+            {(data.projects || []).map((proj, idx) => (
+              <div key={idx} style={{ padding: '24px', background: 'var(--bg-surface)', borderRadius: '16px', border: '1px solid var(--border-active)', display: 'flex', flexDirection: 'column', gap: '16px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <h3 style={{ margin: 0, color: 'var(--accent-cyan)' }}>Project #{idx + 1}: {proj.title || proj.name}</h3>
+                  <button
+                    onClick={() => {
+                      const updated = [...data.projects];
+                      updated.splice(idx, 1);
+                      setData({ ...data, projects: updated });
+                    }}
+                    style={{ background: 'none', border: 'none', color: '#ef4444', cursor: 'pointer', fontWeight: 800 }}
+                  >
+                    🗑️ Remove Project
+                  </button>
                 </div>
-                <div>
-                  <label className="field-label">Live URL / Link</label>
-                  <input type="text" className="input-field" value={prj.link || prj.url || ''} placeholder="https://trustpaybd.net/" onChange={(e) => { const list = [...data.projects]; list[idx].link = e.target.value; setData({ ...data, projects: list }); }} />
-                </div>
-              </div>
 
-              {/* Project Image Upload */}
-              <div>
-                <label className="field-label">Project Screenshot Image</label>
-                <div style={{ display: 'flex', gap: '14px', alignItems: 'center', flexWrap: 'wrap' }}>
-                  <label className="btn-outline" style={{ cursor: 'pointer', padding: '10px 18px', fontSize: '0.88rem' }}>
-                    {uploading ? '⏳ Uploading...' : '🖼️ Upload Image'}
+                <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '16px' }}>
+                  <div>
+                    <label className="field-label">Project Title</label>
                     <input
-                      type="file"
-                      accept="image/*"
-                      style={{ display: 'none' }}
-                      onChange={(e) => handleFileUpload(e, (url) => {
-                        const list = [...data.projects];
-                        list[idx].image = url;
-                        setData({ ...data, projects: list });
-                      })}
+                      type="text"
+                      className="input-field"
+                      value={proj.title || proj.name || ''}
+                      onChange={(e) => {
+                        const updated = [...data.projects];
+                        updated[idx].title = e.target.value;
+                        updated[idx].name = e.target.value;
+                        setData({ ...data, projects: updated });
+                      }}
                     />
-                  </label>
-                  <input
-                    type="text"
+                  </div>
+                  <div>
+                    <label className="field-label">Live Platform URL</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={proj.link || proj.url || ''}
+                      onChange={(e) => {
+                        const updated = [...data.projects];
+                        updated[idx].link = e.target.value;
+                        updated[idx].url = e.target.value;
+                        setData({ ...data, projects: updated });
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label className="field-label">Technologies / Tags (Comma separated)</label>
+                    <input
+                      type="text"
+                      className="input-field"
+                      value={Array.isArray(proj.tags || proj.technologies) ? (proj.tags || proj.technologies).join(', ') : ''}
+                      onChange={(e) => {
+                        const updated = [...data.projects];
+                        const arr = e.target.value.split(',').map((s) => s.trim());
+                        updated[idx].tags = arr;
+                        updated[idx].technologies = arr;
+                        setData({ ...data, projects: updated });
+                      }}
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="field-label">Project Description</label>
+                  <textarea
                     className="input-field"
-                    style={{ flex: 1 }}
-                    value={prj.image || ''}
-                    placeholder="Image path (/Image/gtshop.png)"
-                    onChange={(e) => { const list = [...data.projects]; list[idx].image = e.target.value; setData({ ...data, projects: list }); }}
+                    rows="3"
+                    value={proj.description || ''}
+                    onChange={(e) => {
+                      const updated = [...data.projects];
+                      updated[idx].description = e.target.value;
+                      setData({ ...data, projects: updated });
+                    }}
                   />
                 </div>
               </div>
-
-              <div>
-                <label className="field-label">Project Description</label>
-                <textarea rows={2} className="input-field" value={prj.description || ''} placeholder="Project Description..." onChange={(e) => { const list = [...data.projects]; list[idx].description = e.target.value; setData({ ...data, projects: list }); }} />
-              </div>
-              
-              <div>
-                <label className="field-label">Technology Tags (Comma separated)</label>
-                <input
-                  type="text"
-                  className="input-field"
-                  value={(prj.tags || prj.technologies || []).join(', ')}
-                  placeholder="Laravel, React.js, REST API, MySQL"
-                  onChange={(e) => { const list = [...data.projects]; list[idx].tags = e.target.value.split(',').map(s => s.trim()).filter(Boolean); setData({ ...data, projects: list }); }}
-                />
-              </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
       )}
-
-      {/* Input Form Styling */}
-      <style jsx>{`
-        .field-label {
-          display: block;
-          font-weight: 700;
-          font-size: 0.85rem;
-          color: var(--text-secondary);
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-          margin-bottom: 8px;
-        }
-        .input-field {
-          width: 100%;
-          padding: 12px 16px;
-          border-radius: 12px;
-          border: 1px solid var(--border-subtle);
-          background: var(--bg-card);
-          color: var(--text-primary);
-          font-size: 0.98rem;
-          font-family: inherit;
-          transition: border-color 0.2s;
-        }
-        .input-field:focus {
-          outline: none;
-          border-color: var(--accent-cyan);
-          box-shadow: 0 0 12px rgba(56, 189, 248, 0.2);
-        }
-      `}</style>
     </div>
   );
 }
