@@ -35,7 +35,7 @@ export default function LoginPage() {
         localStorage.setItem('turag_admin_token', 'authenticated');
         router.push('/admin');
       } else {
-        setError('Invalid credentials! Hint: Use Username: admin and Password: turag123.@');
+        setError('Invalid username or password!');
         setLoading(false);
       }
     }, 600);
@@ -116,7 +116,7 @@ export default function LoginPage() {
             </label>
             <input
               type="text"
-              placeholder="admin"
+              placeholder="Enter username"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
@@ -171,18 +171,6 @@ export default function LoginPage() {
             {loading ? 'Verifying Access...' : '⚡ Unlock Dashboard'}
           </button>
         </form>
-
-        <div
-          style={{
-            paddingTop: '16px',
-            borderTop: '1px solid var(--border-subtle)',
-            textAlign: 'center',
-            fontSize: '0.8rem',
-            color: 'var(--text-muted)',
-          }}
-        >
-          💡 Login Hint: Username: <strong style={{ color: 'var(--accent-cyan)' }}>admin</strong> | Password: <strong style={{ color: 'var(--accent-cyan)' }}>turag123.@</strong>
-        </div>
       </motion.div>
     </div>
   );
