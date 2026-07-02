@@ -1,9 +1,19 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+import { put } from '@vercel/blob';
+import { getPortfolioData, savePortfolioData } from '../../../lib/portfolioStore';
+
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
 
 export async function POST(request) {
   try {
+    if (!process.env.BLOB_READ_WRITE_TOKEN) {
+      return NextResponse.json(
+        { error: 'Storage is not configured. Set BLOB_READ_WRITE_TOKEN in your Vercel project.' },
+        { status: 500 }
+      );
+    }
+
     const formData = await request.formData();
     const file = formData.get('file');
     const uploadType = formData.get('type') || '';
@@ -12,49 +22,34 @@ export async function POST(request) {
       return NextResponse.json({ error: 'No file uploaded' }, { status: 400 });
     }
 
-    const buffer = Buffer.from(await file.arrayBuffer());
     const cleanFileName = file.name.replace(/[^a-zA-Z0-9.\-_]/g, '_');
     const timestamp = Date.now();
-    const filename = `${timestamp}_${cleanFileName}`;
+    const blobPath = `uploads/${timestamp}_${cleanFileName}`;
 
-    const uploadsDir = path.join(process.cwd(), 'public', 'uploads');
-    await fs.mkdir(uploadsDir, { recursive: true });
+    // Upload to Vercel Blob (persistent, works on serverless)
+    const blob = await put(blobPath, file, {
+      access: 'public',
+      addRandomSuffix: false,
+    });
 
-    const filePath = path.join(uploadsDir, filename);
-    await fs.writeFile(filePath, buffer);
+    const publicUrl = blob.url;
 
-    const publicUrl = `/uploads/${filename}`;
-
-    // If it's a resume document or specified as type 'resume', also update default resume file & portfolio.json
     const isResume = uploadType === 'resume' || /\.(pdf|doc|docx)$/i.test(file.name);
     const isAvatar = uploadType === 'avatar';
 
-    if (isResume) {
-      try {
-        const imageDir = path.join(process.cwd(), 'public', 'Image');
-        await fs.mkdir(imageDir, { recursive: true });
-        const defaultResumePath = path.join(imageDir, 'Resume_SMTurag.pdf');
-        await fs.writeFile(defaultResumePath, buffer);
-      } catch (err) {
-        console.error('Failed to update default Resume_SMTurag.pdf:', err);
-      }
-    }
-
-    // Automatically sync with data/portfolio.json if applicable
+    // Persist the URL into portfolio data so the live site picks it up
     try {
-      const dataFilePath = path.join(process.cwd(), 'data', 'portfolio.json');
-      const fileContents = await fs.readFile(dataFilePath, 'utf8');
-      const portfolioData = JSON.parse(fileContents);
+      const portfolioData = await getPortfolioData();
       if (portfolioData && portfolioData.personal) {
         if (isResume) {
           portfolioData.personal.resumeUrl = publicUrl;
         } else if (isAvatar) {
           portfolioData.personal.avatar = publicUrl;
         }
-        await fs.writeFile(dataFilePath, JSON.stringify(portfolioData, null, 2), 'utf8');
+        await savePortfolioData(portfolioData);
       }
     } catch (err) {
-      console.error('Error auto-updating portfolio.json on upload:', err);
+      console.error('Error auto-updating portfolio data on upload:', err);
     }
 
     return NextResponse.json({ success: true, url: publicUrl, originalName: file.name });
@@ -63,4 +58,3 @@ export async function POST(request) {
     return NextResponse.json({ error: 'File upload failed' }, { status: 500 });
   }
 }
-
