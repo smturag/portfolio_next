@@ -22,7 +22,7 @@
     "email": "smturag01@gmail.com",
     "phone": "+8801605042408",
     "location": "Dhaka, Bangladesh",
-    "avatar": "/aa.jpg",
+    "avatar": "/uploads/1782956730191_484828510_645751235066460_3368318218325993014_n.jpg",
     "resumeUrl": "/Image/Resume_SMTurag.pdf",
     "titles": [
       "Full Stack Web Developer",
@@ -93,9 +93,18 @@
         "Managed server deployment and version control using Git, ensuring high availability and CI/CD workflows."
       ],
       "liveProjects": [
-        { "name": "dev.learnwithnoman.com", "url": "https://dev.learnwithnoman.com/" },
-        { "name": "mentorassist.online", "url": "https://mentorassist.online/" },
-        { "name": "bloodlinkonline.xyz", "url": "https://bloodlinkonline.xyz/" }
+        {
+          "name": "dev.learnwithnoman.com",
+          "url": "https://dev.learnwithnoman.com/"
+        },
+        {
+          "name": "mentorassist.online",
+          "url": "https://mentorassist.online/"
+        },
+        {
+          "name": "bloodlinkonline.xyz",
+          "url": "https://bloodlinkonline.xyz/"
+        }
       ]
     },
     {
@@ -114,10 +123,22 @@
         "Participated in code reviews, debugging, and performance optimization."
       ],
       "liveProjects": [
-        { "name": "trustpaybd.net", "url": "https://trustpaybd.net/" },
-        { "name": "pitor.store", "url": "https://pitor.store/" },
-        { "name": "pro.irecharge.net", "url": "https://pro.irecharge.net/" },
-        { "name": "sushiplanet.net", "url": "https://sushiplanet.net/" }
+        {
+          "name": "trustpaybd.net",
+          "url": "https://trustpaybd.net/"
+        },
+        {
+          "name": "pitor.store",
+          "url": "https://pitor.store/"
+        },
+        {
+          "name": "pro.irecharge.net",
+          "url": "https://pro.irecharge.net/"
+        },
+        {
+          "name": "sushiplanet.net",
+          "url": "https://sushiplanet.net/"
+        }
       ]
     },
     {
@@ -135,27 +156,70 @@
         "Wrote clean, modular backend architectures following SOLID design principles and PSR standards for high-concurrency client workloads."
       ],
       "liveProjects": [
-        { "name": "Live Streaming App (Laravel, Node.js, WebRTC, Flutter)", "url": "#" },
-        { "name": "Multiplayer Ludo Game Engine (Laravel, Node.js, Socket.IO)", "url": "#" }
+        {
+          "name": "Live Streaming App (Laravel, Node.js, WebRTC, Flutter)",
+          "url": "#"
+        },
+        {
+          "name": "Multiplayer Ludo Game Engine (Laravel, Node.js, Socket.IO)",
+          "url": "#"
+        }
       ]
     }
   ],
   "skills": [
-    { "id": "sk-1", "name": "Laravel & PHP OOP", "level": "Expert" },
-    { "id": "sk-2", "name": "React.js & Next.js", "level": "Advanced" },
-    { "id": "sk-3", "name": "Node.js & Express", "level": "Advanced" },
-    { "id": "sk-4", "name": "React Native & Flutter", "level": "Advanced" },
-    { "id": "sk-5", "name": "Socket.IO & WebRTC", "level": "Specialist" },
-    { "id": "sk-6", "name": "MySQL / PostgreSQL / MongoDB", "level": "Expert" },
-    { "id": "sk-7", "name": "Git, GitHub & Postman", "level": "Proficient" },
-    { "id": "sk-8", "name": "Docker & Server Management", "level": "Experienced" }
+    {
+      "id": "sk-1",
+      "name": "Laravel & PHP OOP",
+      "level": "Expert"
+    },
+    {
+      "id": "sk-2",
+      "name": "React.js & Next.js",
+      "level": "Advanced"
+    },
+    {
+      "id": "sk-3",
+      "name": "Node.js & Express",
+      "level": "Advanced"
+    },
+    {
+      "id": "sk-4",
+      "name": "React Native & Flutter",
+      "level": "Advanced"
+    },
+    {
+      "id": "sk-5",
+      "name": "Socket.IO & WebRTC",
+      "level": "Specialist"
+    },
+    {
+      "id": "sk-6",
+      "name": "MySQL / PostgreSQL / MongoDB",
+      "level": "Expert"
+    },
+    {
+      "id": "sk-7",
+      "name": "Git, GitHub & Postman",
+      "level": "Proficient"
+    },
+    {
+      "id": "sk-8",
+      "name": "Docker & Server Management",
+      "level": "Experienced"
+    }
   ],
   "projects": [
     {
       "id": "prj-1",
       "title": "TrustPay BD - FinTech Payment Ecosystem",
       "description": "High-throughput digital payment processing engine and merchant settlement gateway engineered for instantaneous transaction processing.",
-      "tags": ["Laravel", "React.js", "REST API", "MySQL"],
+      "tags": [
+        "Laravel",
+        "React.js",
+        "REST API",
+        "MySQL"
+      ],
       "image": "/Image/gtshop.png",
       "link": "https://trustpaybd.net/"
     },
@@ -163,7 +227,12 @@
       "id": "prj-2",
       "title": "Pitor Store - Modern E-Commerce Marketplace",
       "description": "Enterprise-grade online store ecosystem with real-time stock management, custom merchant invoicing, and lightning-fast checkout.",
-      "tags": ["Laravel", "Next.js", "Node.js", "Tailwind"],
+      "tags": [
+        "Laravel",
+        "Next.js",
+        "Node.js",
+        "Tailwind"
+      ],
       "image": "/Image/gtshop.png",
       "link": "https://pitor.store/"
     },
@@ -171,7 +240,12 @@
       "id": "prj-3",
       "title": "Pro iRecharge - Automated Utility & Recharge Portal",
       "description": "High-availability telecom billing and automated mobile top-up system integrating multiple carrier API endpoints seamlessly.",
-      "tags": ["PHP", "Laravel", "APIs", "Database Management"],
+      "tags": [
+        "PHP",
+        "Laravel",
+        "APIs",
+        "Database Management"
+      ],
       "image": "/Image/mimmi.png",
       "link": "https://pro.irecharge.net/"
     },
@@ -179,7 +253,12 @@
       "id": "prj-4",
       "title": "Sushi Planet - Online Food Ordering Web & Mobile System",
       "description": "Interactive restaurant ordering web platform and mobile app featuring dynamic menu customization, order dispatching, and table reservation.",
-      "tags": ["React", "Laravel", "MySQL", "Responsive UI"],
+      "tags": [
+        "React",
+        "Laravel",
+        "MySQL",
+        "Responsive UI"
+      ],
       "image": "/Image/gtshop.png",
       "link": "https://sushiplanet.net/"
     },
@@ -187,7 +266,12 @@
       "id": "prj-5",
       "title": "Real-Time Live Streaming Platform Architecture",
       "description": "Low-latency video streaming platform powered by WebRTC signaling servers, Node.js real-time event loops, and Flutter mobile client.",
-      "tags": ["WebRTC", "Node.js", "Flutter", "Socket.IO"],
+      "tags": [
+        "WebRTC",
+        "Node.js",
+        "Flutter",
+        "Socket.IO"
+      ],
       "image": "/Image/gtshop.png",
       "link": "https://pitor.net/"
     },
@@ -195,7 +279,12 @@
       "id": "prj-6",
       "title": "Real-Time Multiplayer Ludo Gaming Engine",
       "description": "Low-latency multiplayer board game backend and frontend built with Socket.IO, Node.js, and Laravel for synchronized room states.",
-      "tags": ["Socket.IO", "Node.js", "Laravel", "Real-Time"],
+      "tags": [
+        "Socket.IO",
+        "Node.js",
+        "Laravel",
+        "Real-Time"
+      ],
       "image": "/Image/mimmi.png",
       "link": "https://pitor.net/"
     },
@@ -203,7 +292,12 @@
       "id": "prj-7",
       "title": "Mentor Assist & Educational Platform",
       "description": "Dedicated learning management system and live tutoring portal connecting mentors with students worldwide.",
-      "tags": ["Laravel", "Node.js", "WebRTC", "MySQL"],
+      "tags": [
+        "Laravel",
+        "Node.js",
+        "WebRTC",
+        "MySQL"
+      ],
       "image": "/Image/gtshop.png",
       "link": "https://mentorassist.online/"
     },
@@ -211,7 +305,12 @@
       "id": "prj-8",
       "title": "Blood Link Online - Emergency Donor Portal",
       "description": "Geo-located healthcare community platform designed to match urgent blood donors with recipients in real-time.",
-      "tags": ["Laravel", "PHP OOP", "MySQL", "Bootstrap"],
+      "tags": [
+        "Laravel",
+        "PHP OOP",
+        "MySQL",
+        "Bootstrap"
+      ],
       "image": "/Image/mimmi.png",
       "link": "https://bloodlinkonline.xyz/"
     }
