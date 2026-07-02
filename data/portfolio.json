@@ -1,0 +1,198 @@
+{
+  "siteSettings": {
+    "brandName": "SM Turag",
+    "heroGreeting": "WELCOME TO MY PORTFOLIO",
+    "aboutSubtitle": "Know Me More",
+    "aboutTitle": "About Me",
+    "servicesSubtitle": "What I Do",
+    "servicesTitle": "Specialized Engineering Services",
+    "resumeSubtitle": "Career & Summary",
+    "resumeTitle": "Work Experience & Tech Stack",
+    "projectsSubtitle": "Live Showcase",
+    "projectsTitle": "Featured Projects & Live Systems",
+    "footerText": "© 2026 S M Turag. Crafted with Linear & Vercel Inspired Architecture.",
+    "socials": {
+      "github": "https://github.com",
+      "linkedin": "https://linkedin.com",
+      "facebook": "https://facebook.com"
+    }
+  },
+  "personal": {
+    "name": "S M Turag",
+    "email": "smturag0@gmail.com",
+    "location": "Dhaka, Bangladesh",
+    "avatar": "/aa.jpg",
+    "resumeUrl": "/Image/Resume_SMTurag.pdf",
+    "titles": [
+      "Full Stack Web Developer",
+      "Mobile App Developer",
+      "Laravel & Node.js Architect",
+      "React & React Native Engineer"
+    ],
+    "heroSubtitle": "Full Stack Web Developer specializing in front-end & back-end development. Experienced with all stages of the development cycle for dynamic web and cross-platform mobile applications.",
+    "bio": "I am S M Turag, a dedicated Full Stack Web and Mobile App Developer. I architect scalable web platforms and mobile applications using modern technologies including Laravel, React.js, Next.js, Node.js, React Native, and Flutter. Proven track record developing high-traffic FinTech solutions, real-time WebRTC streaming systems, multiplayer socket applications, and enterprise e-commerce platforms."
+  },
+  "services": [
+    {
+      "id": "srv-1",
+      "icon": "Web",
+      "title": "Full Stack Web Engineering",
+      "description": "Developing high-performance, responsive web applications using React.js, Next.js, and modern CSS architecture with complete SEO optimization."
+    },
+    {
+      "id": "srv-2",
+      "icon": "Android",
+      "title": "Cross-Platform Mobile Apps",
+      "description": "Building native-grade iOS and Android mobile applications using React Native and Flutter, ensuring seamless UI/UX and 60fps animations."
+    },
+    {
+      "id": "srv-3",
+      "icon": "Backend",
+      "title": "Backend, APIs & Database Architecture",
+      "description": "Designing robust RESTful APIs, real-time WebRTC/Socket.IO communication, and optimized schemas across MySQL, PostgreSQL, and MongoDB."
+    },
+    {
+      "id": "srv-4",
+      "icon": "Scrapping",
+      "title": "DevOps, Server & System Management",
+      "description": "Managing Linux servers, Docker containerization, cloud deployments, and automated testing following SOLID principles and PSR standards."
+    }
+  ],
+  "education": [
+    {
+      "id": "edu-1",
+      "year": "2016 - 2020",
+      "background": "B.Sc in Computer Science & Engineering",
+      "institute": "Daffodil International University",
+      "location": "Dhaka, Bangladesh"
+    },
+    {
+      "id": "edu-2",
+      "year": "2012 - 2014",
+      "background": "Higher Secondary Certificate (Science)",
+      "institute": "Rangpur Govt. College",
+      "location": "Rangpur, Bangladesh"
+    }
+  ],
+  "experience": [
+    {
+      "id": "exp-1",
+      "year": "2024 - PRESENT",
+      "title": "Full Stack Developer",
+      "company": "Pitor",
+      "companyUrl": "https://pitor.net/",
+      "location": "Remote",
+      "technologies": "Laravel, React.js, Node.js, React Native",
+      "responsibilities": [
+        "Developed and maintained scalable web applications using Laravel, React.js, and Node.js, ensuring high performance and responsiveness.",
+        "Designed and implemented RESTful APIs to enable seamless communication between frontend and backend systems.",
+        "Built cross-platform mobile applications using React Native, delivering consistent user experience across iOS and Android.",
+        "Collaborated with UI/UX designers and backend teams to translate business requirements into functional, user-friendly features.",
+        "Participated in code reviews, debugging, and performance optimization."
+      ],
+      "liveProjects": [
+        { "name": "trustpaybd.net", "url": "https://trustpaybd.net/" },
+        { "name": "pitor.store", "url": "https://pitor.store/" },
+        { "name": "pro.irecharge.net", "url": "https://pro.irecharge.net/" },
+        { "name": "sushiplanet.net", "url": "https://sushiplanet.net/" }
+      ]
+    },
+    {
+      "id": "exp-2",
+      "year": "2022 - 2024",
+      "title": "Full Stack Web & Mobile App Developer",
+      "company": "Software & Enterprise Clients",
+      "companyUrl": "https://mentorassist.online/",
+      "location": "Dhaka, Bangladesh",
+      "technologies": "Laravel, Node.js, Express, Socket.IO, WebRTC, Flutter",
+      "responsibilities": [
+        "Architected and optimized database schemas (MySQL/PostgreSQL/MongoDB) for scalability, data integrity, and performance.",
+        "Implemented authentication structuring, reducing API response time significantly.",
+        "Wrote and maintained clean, testable code following MVC architecture and best practices (SOLID principles, PSR standards).",
+        "Engineered real-time features including low-latency WebRTC video streaming and Socket.IO multiplayer gaming synchronization."
+      ],
+      "liveProjects": [
+        { "name": "Live Streaming App (Laravel, Node JS, WebRTC, Flutter)", "url": "#" },
+        { "name": "Multiplayer Ludo Game (Laravel, Node JS, Socket.IO)", "url": "#" },
+        { "name": "mentorassist.online", "url": "https://mentorassist.online/" },
+        { "name": "bloodlinkonline.xyz", "url": "https://bloodlinkonline.xyz/" }
+      ]
+    }
+  ],
+  "skills": [
+    { "id": "sk-1", "name": "Laravel & PHP OOP", "level": "Expert" },
+    { "id": "sk-2", "name": "React.js & Next.js", "level": "Advanced" },
+    { "id": "sk-3", "name": "Node.js & Express", "level": "Advanced" },
+    { "id": "sk-4", "name": "React Native & Flutter", "level": "Advanced" },
+    { "id": "sk-5", "name": "Socket.IO & WebRTC", "level": "Specialist" },
+    { "id": "sk-6", "name": "MySQL / PostgreSQL / MongoDB", "level": "Expert" },
+    { "id": "sk-7", "name": "Git, GitHub & Postman", "level": "Proficient" },
+    { "id": "sk-8", "name": "Docker & Server Management", "level": "Experienced" }
+  ],
+  "projects": [
+    {
+      "id": "prj-1",
+      "title": "TrustPay BD - FinTech Payment Ecosystem",
+      "description": "High-throughput digital payment processing engine and merchant settlement gateway engineered for instantaneous transaction processing.",
+      "tags": ["Laravel", "React.js", "REST API", "MySQL"],
+      "image": "/Image/gtshop.png",
+      "link": "https://trustpaybd.net/"
+    },
+    {
+      "id": "prj-2",
+      "title": "Pitor Store - Modern E-Commerce Marketplace",
+      "description": "Enterprise-grade online store ecosystem with real-time stock management, custom merchant invoicing, and lightning-fast checkout.",
+      "tags": ["Laravel", "Next.js", "Node.js", "Tailwind"],
+      "image": "/Image/gtshop.png",
+      "link": "https://pitor.store/"
+    },
+    {
+      "id": "prj-3",
+      "title": "Pro iRecharge - Automated Utility & Recharge Portal",
+      "description": "High-availability telecom billing and automated mobile top-up system integrating multiple carrier API endpoints seamlessly.",
+      "tags": ["PHP", "Laravel", "APIs", "Database Management"],
+      "image": "/Image/mimmi.png",
+      "link": "https://pro.irecharge.net/"
+    },
+    {
+      "id": "prj-4",
+      "title": "Sushi Planet - Online Food Ordering Web & Mobile System",
+      "description": "Interactive restaurant ordering web platform and mobile app featuring dynamic menu customization, order dispatching, and table reservation.",
+      "tags": ["React", "Laravel", "MySQL", "Responsive UI"],
+      "image": "/Image/gtshop.png",
+      "link": "https://sushiplanet.net/"
+    },
+    {
+      "id": "prj-5",
+      "title": "Real-Time Live Streaming Platform Architecture",
+      "description": "Low-latency video streaming platform powered by WebRTC signaling servers, Node.js real-time event loops, and Flutter mobile client.",
+      "tags": ["WebRTC", "Node.js", "Flutter", "Socket.IO"],
+      "image": "/Image/gtshop.png",
+      "link": "https://pitor.net/"
+    },
+    {
+      "id": "prj-6",
+      "title": "Real-Time Multiplayer Ludo Gaming Engine",
+      "description": "Low-latency multiplayer board game backend and frontend built with Socket.IO, Node.js, and Laravel for synchronized room states.",
+      "tags": ["Socket.IO", "Node.js", "Laravel", "Real-Time"],
+      "image": "/Image/mimmi.png",
+      "link": "https://pitor.net/"
+    },
+    {
+      "id": "prj-7",
+      "title": "Mentor Assist & Educational Platform",
+      "description": "Dedicated learning management system and live tutoring portal connecting mentors with students worldwide.",
+      "tags": ["Laravel", "Node.js", "WebRTC", "MySQL"],
+      "image": "/Image/gtshop.png",
+      "link": "https://mentorassist.online/"
+    },
+    {
+      "id": "prj-8",
+      "title": "Blood Link Online - Emergency Donor Portal",
+      "description": "Geo-located healthcare community platform designed to match urgent blood donors with recipients in real-time.",
+      "tags": ["Laravel", "PHP OOP", "MySQL", "Bootstrap"],
+      "image": "/Image/mimmi.png",
+      "link": "https://bloodlinkonline.xyz/"
+    }
+  ]
+}
