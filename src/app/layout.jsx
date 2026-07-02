@@ -17,8 +17,53 @@ const plusJakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata = {
-  title: 'S M Turag | Executive Full Stack Engineer',
-  description: 'Portfolio & Architecture Showcase of S M Turag - Full Stack Web & Mobile Applications Developer.',
+  metadataBase: new URL('http://localhost:3000'),
+  title: 'S M Turag | Full Stack Web & Mobile Architect',
+  description: 'Official Portfolio of S M Turag - Full Stack Web & Mobile App Developer specializing in Laravel, React, Next.js, React Native, and Flutter.',
+  keywords: [
+    'S M Turag',
+    'Full Stack Developer',
+    'Laravel Developer Bangladesh',
+    'React Native Engineer',
+    'Next.js Architect',
+    'Mobile App Developer',
+    'Software Engineer Dhaka'
+  ],
+  authors: [{ name: 'S M Turag' }],
+  creator: 'S M Turag',
+  publisher: 'S M Turag',
+  openGraph: {
+    title: 'S M Turag | Full Stack Web & Mobile Architect',
+    description: 'Explore enterprise web systems, high-concurrency APIs, and mobile applications engineered by S M Turag.',
+    url: 'https://smturag.com',
+    siteName: 'S M Turag Portfolio',
+    images: [
+      {
+        url: '/aa.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'S M Turag - Full Stack Architect Portfolio',
+      },
+    ],
+    locale: 'en_US',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'S M Turag | Full Stack Web & Mobile Architect',
+    description: 'Official Portfolio of S M Turag - Full Stack Web & Mobile Applications Developer.',
+    images: ['/aa.jpg'],
+  },
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: 'any' },
+      { url: '/aa.jpg', type: 'image/jpeg', sizes: '32x32' },
+    ],
+    shortcut: '/favicon.ico',
+    apple: [
+      { url: '/aa.jpg', sizes: '180x180', type: 'image/jpeg' },
+    ],
+  },
 };
 
 export default function RootLayout({ children }) {

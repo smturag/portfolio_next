@@ -91,19 +91,19 @@ export default function Home() {
             />
 
             <span className="section-tag">Start a Collaboration</span>
-            <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)', margin: '12px 0 20px', letterSpacing: '-1px' }}>
+            <h2 style={{ fontSize: 'clamp(2.2rem, 4.5vw, 3.5rem)', margin: '12px 0 20px', letterSpacing: '-1px', color: '#ffffff', fontWeight: 800 }}>
               Have a Project in Mind? Let&apos;s Build <br />
               <span className="text-gradient">Something Extraordinary Together.</span>
             </h2>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '1.15rem', maxWidth: '640px', margin: '0 auto 36px', lineHeight: 1.8 }}>
+            <p style={{ color: '#cbd5e1', fontSize: '1.15rem', maxWidth: '640px', margin: '0 auto 36px', lineHeight: 1.8 }}>
               Whether you need a full-scale enterprise web platform or a high-converting mobile architecture, I am ready to turn your vision into reality.
             </p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <a href={`mailto:${personal?.email || 'smturag01@gmail.com'}`} className="btn-gradient" style={{ padding: '16px 36px', fontSize: '1.05rem' }}>
+              <a href={`mailto:${personal?.email || 'smturag01@gmail.com'}`} className="btn-gradient" style={{ padding: '16px 36px', fontSize: '1.05rem', color: '#ffffff' }}>
                 ✉️ {personal?.email || 'smturag01@gmail.com'}
               </a>
               {personal?.phone && (
-                <a href={`tel:${personal.phone}`} className="btn-outline" style={{ padding: '16px 36px', fontSize: '1.05rem', borderColor: 'var(--accent-cyan)', color: 'var(--accent-cyan)' }}>
+                <a href={`tel:${personal.phone}`} className="btn-outline" style={{ padding: '16px 36px', fontSize: '1.05rem', borderColor: '#38bdf8', color: '#ffffff', background: 'rgba(56, 189, 248, 0.15)' }}>
                   📞 {personal.phone}
                 </a>
               )}

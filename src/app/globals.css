@@ -243,9 +243,9 @@ button {
   align-items: center;
   justify-content: center;
   gap: 10px;
-  background: rgba(255, 255, 255, 0.03) !important;
-  color: var(--text-primary) !important;
-  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface);
+  color: var(--text-primary);
+  border: 1px solid var(--border-active);
   padding: 14px 30px;
   border-radius: 9999px;
   font-weight: 700;
@@ -254,7 +254,7 @@ button {
 }
 
 .btn-outline:hover {
-  background: var(--border-subtle) !important;
+  background: var(--border-subtle);
   border-color: var(--text-primary);
   transform: translateY(-3px);
 }

@@ -77,7 +77,7 @@ export default function HeroSection({ personal, siteSettings }) {
               }}
             >
               <div>
-                <div style={{ fontSize: '1.7rem', fontWeight: 800, color: 'var(--text-primary)' }}>5+</div>
+                <div style={{ fontSize: '1.7rem', fontWeight: 800, color: 'var(--text-primary)' }}>4+</div>
                 <div style={{ fontSize: '0.78rem', color: 'var(--text-muted)', fontWeight: 700, textTransform: 'uppercase' }}>Years Exp.</div>
               </div>
               <div style={{ borderLeft: '1px solid var(--border-subtle)', paddingLeft: '16px' }}>
