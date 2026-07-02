@@ -328,3 +328,22 @@ button {
     padding: 80px 0;
   }
 }
+
+/* Navbar Responsive Controls */
+@media (max-width: 900px) {
+  .nav-desktop {
+    display: none !important;
+  }
+  .nav-mobile-btn {
+    display: flex !important;
+  }
+  .admin-btn-desktop {
+    display: none !important;
+  }
+}
+
+@media (min-width: 901px) {
+  .nav-mobile-btn {
+    display: none !important;
+  }
+}
